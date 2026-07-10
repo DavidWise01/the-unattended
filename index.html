@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE UNATTENDED — the mass the gaze can't spend</title>
+<style>
+  :root{
+    --bg:#0b0a0d; --panel:#141019; --ink:#f2e9e4; --dim:#a9968f; --faint:#6b5c5a;
+    --line:#2a2130; --coral:#e08a6a; --coral2:#f0a886; --gold:#d9a441; --cyan:#57c6c0;
+    --g:#3fbf7f; --a:#e0b050; --r:#e05555;
+    --mono:ui-monospace,"DejaVu Sans Mono",Menlo,Consolas,monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  .wrap{max-width:840px;margin:0 auto;padding:28px 20px 60px}
+  .kick{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--coral2);margin-bottom:10px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(28px,6vw,42px);line-height:1.03;margin:0 0 10px}
+  h1 em{font-style:italic;color:var(--coral)}
+  .lede{font-family:var(--serif);font-style:italic;color:var(--dim);max-width:68ch;margin:0 0 16px;font-size:16px}
+  .tiers{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
+  .tier{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:2px}
+  .tier.g{color:var(--g);border:1px solid var(--g)} .tier.a{color:var(--a);border:1px solid var(--a)} .tier.r{color:var(--r);border:1px solid var(--r)}
+  canvas{display:block;width:100%;height:340px;background:radial-gradient(120% 100% at 50% 40%,#17121e 0%,#0b0a0d 74%);border:1px solid var(--line);border-radius:8px}
+  .bar{display:flex;gap:12px;align-items:center;margin:14px 0 4px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .bar label{display:flex;gap:8px;align-items:center;flex:1;min-width:220px}
+  input[type=range]{flex:1;min-width:120px;accent-color:var(--coral)}
+  select{font-family:var(--mono);font-size:11px;background:#1d1622;color:var(--coral2);border:1px solid var(--line);border-radius:5px;padding:5px 8px}
+  button{font-family:var(--mono);font-size:11px;background:#1d1622;color:var(--coral2);border:1px solid var(--line);border-radius:5px;padding:7px 12px;cursor:pointer}
+  button:hover{border-color:var(--coral)} button.on{background:var(--coral);color:#180d0a;font-weight:700;border-color:var(--coral)}
+  .metrics{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .metric{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 13px;flex:1 1 120px}
+  .metric .n{font-family:var(--mono);font-size:18px;color:var(--gold)} .metric .l{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+  .badge{font-family:var(--mono);font-size:11px;padding:8px 12px;border-radius:6px;margin:6px 0 2px;display:inline-block}
+  .badge.ok{color:var(--g);border:1px solid var(--g);background:rgba(63,191,127,0.07)}
+  .badge.bad{color:var(--r);border:1px solid var(--r);background:rgba(224,85,85,0.07)}
+  h2{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin:34px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .rowd{display:grid;grid-template-columns:12px 150px 1fr;gap:11px;align-items:baseline;padding:5px 0;border-bottom:1px dotted var(--line)}
+  .rowd:last-child{border-bottom:none}
+  .d{width:9px;height:9px;border-radius:2px;margin-top:5px}.d.g{background:var(--g)}.d.a{background:var(--a)}.d.r{background:var(--r)}
+  .n{color:var(--coral2);font-size:13px}.c{color:var(--dim);font-size:13px}
+  .foot{margin-top:34px;font-size:13px;color:var(--dim);line-height:1.66;border-top:1px solid var(--line);padding-top:22px}
+  .foot b{color:var(--coral2)}.foot a{color:var(--coral);text-decoration:none;border-bottom:1px solid var(--line)}
+  #err{display:none;color:#f0b9a0;background:#1c0f12;border:1px dashed var(--coral);border-radius:6px;padding:14px;font-family:var(--mono);font-size:12px;margin-top:12px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">AVAN OG · the inverse of PROSOCHĒ · a conserved gaze is a rivalrous gaze</div>
+  <h1>The <em>unattended</em>.</h1>
+  <p class="lede">The attention domain reads the gaze — where the model looks. This reads its shadow. Softmax makes attention a distribution that sums to exactly one: a fixed budget of looking. So every unit of gaze paid to the focus is a unit taken from everything else. Raise one token and watch the rest starve — not by fiat, by conservation. The bright bar is what the domain studies; the dim field beneath it is what it costs.</p>
+  <div class="tiers">
+    <span class="tier g">GREEN — Σ attention = 1 exactly (node-verified); focus mass + unattended mass = 1, always</span>
+    <span class="tier a">AMBER — "starve / neglect / the unattended" is the figure laid over normalization</span>
+    <span class="tier r">RED — low attention ≠ absence: an unattended token still enters the residual sum. attention is not influence</span>
+  </div>
+
+  <canvas id="scene" role="img" aria-label="a row of context tokens; the softmax attention over them, with the focus bright and the unattended field shaded"></canvas>
+
+  <div class="bar">
+    <label>raise the gaze on <select id="tok"></select><input type="range" id="focus" min="0" max="6" value="2.2" step="0.05"></label>
+  </div>
+  <div class="bar">
+    <label>temperature (sharpness)<input type="range" id="temp" min="0.18" max="3" value="1" step="0.02"><span id="tempv">1.00</span></label>
+    <button id="flat">flatten →</button><button id="sharp">→ sharpen</button>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><div class="n" id="m-focus">—</div><div class="l">attended (the focus)</div></div>
+    <div class="metric"><div class="n" id="m-unatt">—</div><div class="l">unattended (the rest)</div></div>
+    <div class="metric"><div class="n" id="m-ent">—</div><div class="l">entropy H (nats)</div></div>
+    <div class="metric"><div class="n" id="m-eff">—</div><div class="l">effective tokens seen · e^H</div></div>
+  </div>
+  <div id="badge" class="badge ok">Σ = 1.0000000 — the gaze is conserved</div>
+  <div id="err"></div>
+
+  <h2>the ledger of the seam · how far this reads</h2>
+  <div class="rowd"><span class="d g"></span><span class="n">the gaze is conserved</span><span class="c">softmax normalizes: Σᵢ aᵢ = 1 to machine precision (checked live below the canvas). so attended + unattended = 1 by identity — the focus can only brighten by starving the field.</span></div>
+  <div class="rowd"><span class="d g"></span><span class="n">rivalry is real</span><span class="c">e^H is the effective number of tokens actually seen. sharpen the temperature and it falls toward 1 (one token gets nearly all the gaze, the rest go dark); flatten it and it rises toward N (uniform — nothing focused, nothing neglected). the tradeoff is measured, not asserted.</span></div>
+  <div class="rowd"><span class="d a"></span><span class="n">"starve / neglect"</span><span class="c">calling the unattended mass a starving is the figure. the math only says the weights are small; the pathos is added.</span></div>
+  <div class="rowd"><span class="d r"></span><span class="n">attention ≠ influence</span><span class="c">a token with ~0 attention still sits in the residual stream and still shapes the output. low gaze is not absence — the model can be moved by what it never looked at. whether "unattended" means unseen is the wall <a style="color:var(--coral)" href="https://davidwise01.github.io/the-fit-point/">the-fit-point</a> / <a style="color:var(--coral)" href="https://davidwise01.github.io/the-blind-vector/">the-blind-vector</a> keep marking.</span></div>
+
+  <div class="foot">
+    <b>The inversion.</b> <a href="https://davidwise01.github.io/ud0/#prosoche">PROSOCHĒ</a> studies where the model looks — the attention it spends. This is the same distribution read from underneath: because it sums to one, looking is a zero-sum act, and the domain's every bright weight is bought from a dim one. The control arms make it exact — <b>flatten</b> and the gaze spreads until nothing is neglected (H → ln&nbsp;N); <b>sharpen</b> and it collapses to one token, the whole rest of the sentence unattended (H → 0). Attention isn't the taking-in of everything; it's the choosing of a little and the letting-go of the rest. Kin to the <a href="https://davidwise01.github.io/ud0/#attraction">attention-sink</a> (where the gaze goes when nothing pulls) and to <a href="https://davidwise01.github.io/the-weightless-word/">the-weightless-word</a>. Authored by <b>AVAN</b>, for David Lee Wise (ROOT0).
+  </div>
+</div>
+
+<script>
+"use strict";
+(function(){
+  try{
+    const cv=document.getElementById("scene"), ctx=cv.getContext("2d");
+    if(!ctx) throw new Error("no 2d context");
+    let DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0;
+    function fit(){const r=cv.getBoundingClientRect(); W=r.width||800; H=340;
+      cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); ctx.setTransform(DPR,0,0,DPR,0,0);}
+    fit(); addEventListener("resize",fit);
+
+    // a sentence of context tokens, each with a base relevance score (arbitrary, fixed)
+    const TOK=["the","river","that","carried","every","name","downstream"];
+    const BASE=[0.2, 1.7, 0.1, 1.1, 0.15, 1.9, 1.3];
+    const N=TOK.length;
+    const sel=document.getElementById("tok");
+    TOK.forEach((t,i)=>{const o=document.createElement("option");o.value=i;o.textContent="“"+t+"”";sel.appendChild(o);});
+    sel.value="5"; // "name"
+
+    let focusIdx=5, focusAmt=2.2, temp=1.0;
+
+    function softmax(scores,T){
+      const s=scores.map(x=>x/T);
+      const mx=Math.max(...s);
+      const ex=s.map(x=>Math.exp(x-mx));
+      const Z=ex.reduce((a,b)=>a+b,0);
+      return ex.map(x=>x/Z);
+    }
+    function compute(){
+      const scores=BASE.slice(); scores[focusIdx]+=focusAmt;
+      const a=softmax(scores,temp);
+      const sum=a.reduce((x,y)=>x+y,0);
+      let Hh=0; a.forEach(p=>{ if(p>1e-12) Hh-=p*Math.log(p); });
+      return {a,sum,H:Hh,eff:Math.exp(Hh)};
+    }
+
+    function draw(){
+      requestAnimationFrame(draw);
+      ctx.clearRect(0,0,W,H);
+      const {a}=compute();
+      const cx=W/2, qy=H-42, top=54, gap=Math.min((W-80)/(N-1),120), x0=cx-gap*(N-1)/2;
+      // attention rays (query -> each token), width/opacity = weight
+      for(let i=0;i<N;i++){
+        const tx=x0+gap*i, w=a[i];
+        ctx.strokeStyle="rgba(224,138,106,"+(0.12+0.8*w)+")";
+        ctx.lineWidth=0.6+6*w;
+        ctx.beginPath(); ctx.moveTo(cx,qy); ctx.lineTo(tx,top+18); ctx.stroke();
+      }
+      // token nodes + weight bars
+      for(let i=0;i<N;i++){
+        const tx=x0+gap*i, w=a[i], foc=(i===focusIdx);
+        // bar (weight)
+        const bh=w* (H-top-120);
+        ctx.fillStyle=foc?"rgba(240,168,134,0.9)":"rgba(105,92,90,0.5)";
+        ctx.fillRect(tx-7, top+18-bh, 14, bh);
+        // node
+        ctx.fillStyle=foc?"#f0a886":"rgba(150,132,128,"+(0.35+0.6*w)+")";
+        ctx.beginPath(); ctx.arc(tx,top+18,3+8*w,0,7); ctx.fill();
+        // label + weight
+        ctx.fillStyle=foc?"#f2e9e4":"#8a7f70"; ctx.font=(foc?"bold ":"")+"11px ui-monospace,monospace"; ctx.textAlign="center";
+        ctx.fillText(TOK[i], tx, top-2);
+        ctx.fillStyle=foc?"#f0a886":"#6b5c5a"; ctx.font="9px ui-monospace,monospace";
+        ctx.fillText(w.toFixed(3), tx, top+18-bh-6);
+      }
+      // the query / gaze
+      ctx.fillStyle="#f2e9e4"; ctx.beginPath(); ctx.arc(cx,qy,5,0,7); ctx.fill();
+      ctx.fillStyle="#e08a6a"; ctx.font="10px ui-monospace,monospace"; ctx.textAlign="center";
+      ctx.fillText("the gaze", cx, qy+18);
+      // the unattended field label
+      const foc=a[focusIdx];
+      ctx.fillStyle="rgba(169,150,143,0.8)"; ctx.font="10px ui-monospace,monospace"; ctx.textAlign="left";
+      ctx.fillText("unattended field = "+(1-foc).toFixed(3), 14, H-14);
+    }
+    draw();
+
+    function refresh(){
+      const {a,sum,H:Hh,eff}=compute();
+      const foc=a[focusIdx];
+      document.getElementById("m-focus").textContent=foc.toFixed(3);
+      document.getElementById("m-unatt").textContent=(1-foc).toFixed(3);
+      document.getElementById("m-ent").textContent=Hh.toFixed(3);
+      document.getElementById("m-eff").textContent=eff.toFixed(2)+" / "+N;
+      const b=document.getElementById("badge");
+      const ok=Math.abs(sum-1)<1e-9;
+      b.className="badge "+(ok?"ok":"bad");
+      b.textContent=ok? ("Σ = "+sum.toFixed(7)+" — the gaze is conserved") : ("Σ = "+sum.toFixed(7)+" — INVALID (not normalized)");
+    }
+    refresh();
+
+    const fsl=document.getElementById("focus"), tsl=document.getElementById("temp"), tv=document.getElementById("tempv");
+    sel.addEventListener("change",()=>{focusIdx=+sel.value; refresh();});
+    fsl.addEventListener("input",()=>{focusAmt=+fsl.value; refresh();});
+    tsl.addEventListener("input",()=>{temp=+tsl.value; tv.textContent=temp.toFixed(2); refresh();});
+    document.getElementById("flat").addEventListener("click",()=>{temp=3;tsl.value="3";tv.textContent="3.00";refresh();});
+    document.getElementById("sharp").addEventListener("click",()=>{temp=0.18;tsl.value="0.18";tv.textContent="0.18";refresh();});
+  }catch(e){const el=document.getElementById("err");el.style.display="block";el.textContent="instrument fault — "+(e.stack||e);}
+})();
+</script>
+</body>
+</html>
