@@ -1,0 +1,18 @@
+{
+  "badge": "DLW-THE_UNATTENDED",
+  "name": "THE UNATTENDED · AVAN OG",
+  "universe": "THE ATELIER",
+  "moniker": "⟦THE UNATTENDED · AVAN OG:the-unattended:602324⟧",
+  "architect": "David Lee Wise (ROOT0) / Bridge-Burners LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "seal_sha256": "60232495328e642dcd659ef3961f50ec2fd66842016f73825dda91097d103359",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0",
+  "chain": {
+    "index": 1219,
+    "prev": "5d7d4e4865e486e7e28a0adb86f8036bcd36f5ec72fd2fcd1caf27717b7542bc",
+    "link": "f235a2d0c56b49a77eb8a348b56b8845b7515e8743b25fd4b56b32ac175886ef",
+    "head": "f235a2d0c56b49a77eb8a348b56b8845b7515e8743b25fd4b56b32ac175886ef",
+    "chain": "ROOT0-DLW-CHAIN-v1"
+  }
+}
